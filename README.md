@@ -83,6 +83,6 @@ docker-compose down
 - dotnet build
 - Migration commands for Ordering API:
   - cd into Ordering folder
-  - dotnet ef migrations add "SampleMigration" -p Ordering.Infrastructure --startup-project Ordering.API --output-dir Persistence/Migrations
+  - dotnet ef migrations add "Initial_OrderDb" -p Ordering.Infrastructure --startup-project Ordering.API --output-dir Persistence/Migrations
   - dotnet ef migrations remove -p Ordering.Infrastructure --startup-project Ordering.API
   - dotnet ef database update -p Ordering.Infrastructure --startup-project Ordering.API
