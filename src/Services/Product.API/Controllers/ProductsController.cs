@@ -1,10 +1,7 @@
 ﻿using AutoMapper;
-using Contracts.Common.Interfaces;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Product.API.Entities;
-using Product.API.Persistence;
 using Product.API.Repositories.Interfaces;
 using Shared.Dtos.Products;
 using System.ComponentModel.DataAnnotations;
@@ -13,6 +10,8 @@ namespace Product.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [AllowAnonymous]
+
     public class ProductsController : ControllerBase
     {
         private readonly IProductRepository _repository;
@@ -50,12 +49,13 @@ namespace Product.API.Controllers
             return Ok(result);
         }
 
-
-        [HttpPut("{id}")]
+        [HttpPut("{id:long}")]
+        //[ClaimRequirement(FunctionCode.PRODUCT, CommandCode.UPDATE)]
         public async Task<IActionResult> UpdateProduct([Required] long id, [FromBody] UpdateProductDto productDto)
         {
             var product = await _repository.GetProductAsync(id);
-            if (product == null) return NotFound();
+            if (product is null) return NotFound();
+
             var updateProduct = _mapper.Map(productDto, product);
             await _repository.UpdateProductAsync(updateProduct);
             var result = _mapper.Map<ProductDto>(product);

@@ -10,7 +10,12 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Common
 {
-    public class RepositoryQueryBase<T, K, TContext> : IRepositoryQueryBase<T, K, TContext>
+    public class RepositoryQueryBase<T, K>
+    where T : EntityBase<K>
+    {
+
+    }
+    public class RepositoryQueryBase<T, K, TContext> : RepositoryQueryBase<T, K>, IRepositoryQueryBase<T, K, TContext>
      where T : EntityBase<K>
      where TContext : DbContext
     {
@@ -21,10 +26,13 @@ namespace Infrastructure.Common
             _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         }
 
-        public IQueryable<T> FindAll(bool trackChanges = false) =>
-            !trackChanges ? _dbContext.Set<T>().AsNoTracking() :
-                _dbContext.Set<T>();
+        public IQueryable<T> FindAll(bool trackChanges = false)
+        {
 
+            var res = !trackChanges ? _dbContext.Set<T>().AsNoTracking() :
+                   _dbContext.Set<T>();
+            return res;
+        }
         public IQueryable<T> FindAll(bool trackChanges = false, params Expression<Func<T, object>>[] includeProperties)
         {
             var items = FindAll(trackChanges);
@@ -32,11 +40,19 @@ namespace Infrastructure.Common
             return items;
         }
 
-        public IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression, bool trackChanges = false) =>
-            !trackChanges
-                ? _dbContext.Set<T>().Where(expression).AsNoTracking()
-                : _dbContext.Set<T>().Where(expression);
-
+        public IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression, bool trackChanges = false)
+        {
+            if (!trackChanges)
+            {
+                var result = _dbContext.Set<T>().Where(expression).AsNoTracking();
+                return result;
+            }
+            else
+            {
+                var result = _dbContext.Set<T>().Where(expression);
+                return result;
+            }
+        }
         public IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression, bool trackChanges = false, params Expression<Func<T, object>>[] includeProperties)
         {
             var items = FindByCondition(expression, trackChanges);
@@ -44,12 +60,15 @@ namespace Infrastructure.Common
             return items;
         }
 
-        public async Task<T?> GetByIdAsync(K id) =>
-            await FindByCondition(x => x.Id.Equals(id))
+        public async Task<T?> GetByIdAsync(K id)
+        {
+            var res = await FindByCondition(x => x.Id.Equals(id))
                 .FirstOrDefaultAsync();
+            return res;
+        }
 
         public async Task<T?> GetByIdAsync(K id, params Expression<Func<T, object>>[] includeProperties) =>
-            await FindByCondition(x => x.Id.Equals(id), trackChanges: false, includeProperties)
-                .FirstOrDefaultAsync();
+    await FindByCondition(x => x.Id.Equals(id), trackChanges: false, includeProperties)
+        .FirstOrDefaultAsync();
     }
 }
