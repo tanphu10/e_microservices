@@ -34,6 +34,7 @@ namespace Infrastructure.Common
         }
 
         public Task RollbackTransactionAsync() => _dbContext.Database.RollbackTransactionAsync();
+        public void Create(T entity) => _dbContext.Set<T>().Add(entity);
 
         public async Task<K> CreateAsync(T entity)
         {

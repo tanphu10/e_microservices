@@ -4,6 +4,10 @@ using Ordering.Infrastructure;
 using Ordering.Infrastructure.Persistence;
 using Ordering.Application.Features;
 using Ordering.API.Extentisions;
+using Contracts.Messages;
+using Infrastructure.Messages;
+using Contracts.Common.Interfaces;
+using Infrastructure.Common;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Host.UseSerilog(Serilogger.Configure);
@@ -18,6 +22,8 @@ try
     builder.Services.AddConfigurationSettings(builder.Configuration);
     builder.Services.AddApplicationServices();
     builder.Services.AddInfrastructureServices(builder.Configuration);
+    builder.Services.AddScoped<IMessageProducer, RabbitMQProducer>();
+    builder.Services.AddScoped<ISerializeService, SerializeService>();
 
     builder.Services.AddControllers();
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
