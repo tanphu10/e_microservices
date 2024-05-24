@@ -35,7 +35,7 @@ namespace Ordering.Application.Features.V1.Orders.Commands.UpdateOrder
             await _orderRepository.SaveChangesAsync();
 
             _logger.Information(
-                $"Order {request.Id} was successfully updated.");
+                $"Order {updateOrder.Id} was successfully updated.");
             var result = _mapper.Map<OrderDto>(updateOrder);
 
             _logger.Information($"END: {MethodName} - Username: {request.LastName}");

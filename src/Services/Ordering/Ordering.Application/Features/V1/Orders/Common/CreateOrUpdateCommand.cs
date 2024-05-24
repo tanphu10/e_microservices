@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Ordering.Application.Features.V1.Orders.Common
 {
-    public class CreateOrUpdateCommand:IMapFrom<Order>
+    public class CreateOrUpdateCommand : IMapFrom<Order>
     {
         private string _invoiceAddress;
         public decimal TotalPrice { get; set; }
@@ -17,7 +17,6 @@ namespace Ordering.Application.Features.V1.Orders.Common
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string EmailAddress { get; set; }
-
         public string ShippingAddress { get; set; }
 
         public string? InvoiceAddress

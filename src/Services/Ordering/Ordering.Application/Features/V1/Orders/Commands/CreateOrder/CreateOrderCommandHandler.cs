@@ -26,12 +26,12 @@ namespace Ordering.Application.Features.V1.Orders.Commands.CreateOrder
         {
             _logger.Information($"BEGIN: {MethodName} - Username: {request.UserName}");
             var orderEntity = _mapper.Map<Order>(request);
-            _orderRepository.CreateOrder(orderEntity);
+           var addedOrder= await  _orderRepository.CreateOrderAsync(orderEntity);
             //orderEntity.AddedOrder();
             await _orderRepository.SaveChangesAsync();
 
             _logger.Information(
-                $"Order {orderEntity.Id} - Document No: {orderEntity.UserName} was successfully created.");
+                $"Order {addedOrder.Id} - Document No: {addedOrder.DocumentNo} was successfully created.");
 
             _logger.Information($"END: {MethodName} - Username: {request.UserName}");
             return new ApiSuccessResult<long>(orderEntity.Id);

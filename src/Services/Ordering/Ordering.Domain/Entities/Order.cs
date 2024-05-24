@@ -1,4 +1,5 @@
-﻿using Contracts.Domains;
+﻿using Contracts.Common.Events;
+using Contracts.Domains;
 using Ordering.Domain.Enums;
 using System;
 using System.Collections.Generic;
@@ -10,11 +11,13 @@ using System.Threading.Tasks;
 
 namespace Ordering.Domain.Entities
 {
-    public class Order : EntityAuditBase<long>
+    public class Order : AuditableEventEntity<long>
     {
         [Required]
         [Column(TypeName = "nvarchar(150)")]
         public string UserName { get; set; }
+
+        public Guid DocumentNo { get; set; } = Guid.NewGuid();
         [Column(TypeName = "decimal(10,2)")]
         public decimal TotalPrice { get; set; }
         [Required]

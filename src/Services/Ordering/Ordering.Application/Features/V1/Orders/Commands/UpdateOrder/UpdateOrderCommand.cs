@@ -6,18 +6,15 @@ using Ordering.Application.Features.V1.Orders.Common;
 using Ordering.Domain.Entities;
 using Shared.SeedWork;
 
-namespace Ordering.Application.Features.V1.Orders.Commands.UpdateOrder
+namespace Ordering.Application.Features.V1.Orders
 {
-    public class UpdateOrderCommand: CreateOrUpdateCommand, IRequest<ApiResult<OrderDto>>, IMapFrom<Order>
+    public class UpdateOrderCommand : CreateOrUpdateCommand, IRequest<ApiResult<OrderDto>>, IMapFrom<Order>
     {
         public long Id { get; private set; }
 
-        public void Mapping(Profile profile)
-        {
-            profile.CreateMap<UpdateOrderCommand, Order>()
+        public void Mapping(Profile profile) => profile.CreateMap<UpdateOrderCommand, Order>()
                 .ForMember(dest => dest.Status, opts => opts.Ignore());
-                //.IgnoreAllNonExisting();
-        }
+        //.IgnoreAllNonExisting();
 
         public void SetId(long id)
         {
