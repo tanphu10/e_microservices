@@ -16,7 +16,7 @@ namespace Contracts.Common.Events
             _domainEvents.Add(domainEvent);
         }
 
-        public void ClearDomainEent()
+        public void ClearDomainEvent()
         {
             _domainEvents.Clear();
         }

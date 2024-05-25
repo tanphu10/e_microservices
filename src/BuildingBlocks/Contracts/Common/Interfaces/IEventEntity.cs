@@ -12,7 +12,7 @@ namespace Contracts.Common.Interfaces
     {
         void AddDomainEvent(BaseEvent domainEvent);
         void RemoveDomainEvent(BaseEvent domainEvent);
-        void ClearDomainEent();
+        void ClearDomainEvent();
         IReadOnlyCollection<BaseEvent> DomainEvents();
 
 

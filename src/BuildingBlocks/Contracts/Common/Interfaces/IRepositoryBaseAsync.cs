@@ -27,6 +27,12 @@ namespace Contracts.Common.Interfaces
     {
 
     }
+
+    /// <summary>
+    ///  we will regular that if we have *.async , we understand it will savechange() after performance that action 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="K"></typeparam>
     public interface IRepositoryBaseAsync<T, K> : IRepositoryQueryBase<T, K>
     where T : EntityBase<K>
     {

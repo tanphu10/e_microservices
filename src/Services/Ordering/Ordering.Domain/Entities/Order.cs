@@ -1,6 +1,7 @@
 ﻿using Contracts.Common.Events;
 using Contracts.Domains;
 using Ordering.Domain.Enums;
+using Ordering.Domain.OrderAggregate.Events;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -36,5 +37,15 @@ namespace Ordering.Domain.Entities
         [Column(TypeName = "nvarchar(max)")]
         public string InvoiceAddress { get; set; }
         public EOrderStatus Status  { get; set; }
+        public Order AddedOrder()
+        {
+            AddDomainEvent(new OrderCreatedEvent(Id, UserName, DocumentNo.ToString(), TotalPrice, EmailAddress, ShippingAddress, InvoiceAddress));
+            return this;
+        }
+        public Order DeleteOrder()
+        {
+            AddDomainEvent(new OrderDeletedEvent(Id));
+            return this;
+        }
 }
 }
