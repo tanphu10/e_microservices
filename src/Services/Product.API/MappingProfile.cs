@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Product.API.Entities;
 using Shared.Dtos.Products;
-using Infrastructure.Mapping;
+using Infrastructure.Extensions;
 namespace Product.API
 {
     public class MappingProfile:Profile

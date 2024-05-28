@@ -3,7 +3,7 @@ using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructure.Mapping
+namespace Infrastructure.Extensions
 {
 
     //dùng để cho trường ko null có thể ko nhập vào

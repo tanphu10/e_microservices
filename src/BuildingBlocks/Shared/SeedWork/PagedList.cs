@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Shared.SeedWork
+﻿namespace Shared.SeedWork
 {
     public class PagedList<T> : List<T>
     {
@@ -15,7 +9,7 @@ namespace Shared.SeedWork
                 TotalItems = totalItems,
                 PageSize = pageSize,
                 CurrentPage = pageIndex,
-                TotalPages = (int)Math.Ceiling(totalItems / (double)pageSize)
+                //TotalPages = (int)Math.Ceiling(totalItems / (double)pageSize)
             };
             AddRange(items);
         }
