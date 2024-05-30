@@ -1,28 +1,41 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>b11f77a3-6f76-45db-aba5-4770bbba6e2b</UserSecretsId>
-    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-    <DockerfileContext>..\..\..</DockerfileContext>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<UserSecretsId>b11f77a3-6f76-45db-aba5-4770bbba6e2b</UserSecretsId>
+		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+		<DockerfileContext>..\..\..</DockerfileContext>
+	</PropertyGroup>
+		
+	
+	<ItemGroup>
+		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+		<PackageReference Include="Grpc.AspNetCore" Version="2.47.0" />
+		<PackageReference Include="MassTransit.RabbitMQ" Version="8.0.5" />
+		<PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="6.0.6" />
+		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.5" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
-    <PackageReference Include="MassTransit.RabbitMQ" Version="8.0.5" />
-    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="6.0.6" />
-    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.5" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\BuildingBlocks\Common.Logging\Common.Logging.csproj" />
+		<ProjectReference Include="..\..\BuildingBlocks\Contracts\Contracts.csproj" />
+		<ProjectReference Include="..\..\BuildingBlocks\EventBus\EventBus.Messages\EventBus.Messages.csproj" />
+		<ProjectReference Include="..\..\BuildingBlocks\Infrastructure\Infrastructure.csproj" />
+		<ProjectReference Include="..\..\BuildingBlocks\Shared\Shared.csproj" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\BuildingBlocks\Common.Logging\Common.Logging.csproj" />
-    <ProjectReference Include="..\..\BuildingBlocks\Contracts\Contracts.csproj" />
-    <ProjectReference Include="..\..\BuildingBlocks\EventBus\EventBus.Messages\EventBus.Messages.csproj" />
-    <ProjectReference Include="..\..\BuildingBlocks\Infrastructure\Infrastructure.csproj" />
-    <ProjectReference Include="..\..\BuildingBlocks\Shared\Shared.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+	  <Compile Update="Program.cs">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Compile>
+	</ItemGroup>
+	<ItemGroup>
+		<Protobuf Include="..\..\..\..\Inventory.Grpc\Protos\stock.proto" GrpcService="Client" Link="stock.proto">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Protobuf>
+	</ItemGroup>
 
 </Project>

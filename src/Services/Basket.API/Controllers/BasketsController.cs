@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Basket.API.Entities;
+using Basket.API.GrpcServices;
 using Basket.API.Repositories.Interfaces;
 using EventBus.Messages.IntegrationEvents.Events;
 using MassTransit;
@@ -17,12 +18,13 @@ namespace Basket.API.Controllers
         private readonly IBasketRepository _repository;
         private readonly IPublishEndpoint _publishEndpoint;
         private readonly IMapper _mapper;
-
-        public BasketsController(IBasketRepository repository,IMapper mapper,IPublishEndpoint publishEndpoint)
+        private readonly StockItemGrpcService _stockItemGrpcServices;
+        public BasketsController(IBasketRepository repository,IMapper mapper,IPublishEndpoint publishEndpoint, StockItemGrpcService stockItemGrpcServices)
         {
             _repository = repository;
             _mapper = mapper;
             _publishEndpoint = publishEndpoint;
+            _stockItemGrpcServices = stockItemGrpcServices;
         }
 
 
@@ -35,17 +37,33 @@ namespace Basket.API.Controllers
             return Ok(result ?? new Cart(username));
         }
 
+
+
         [HttpPost(Name = "UpdateBasket")]
         [ProducesResponseType(typeof(Cart), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<Cart>> UpdateBasket([FromBody] Cart cart)
         {
+            //Communicate with inventory.Grpc  and check quantity available of products
+            foreach (var item in cart.Items)
+            {
+                var stock = await _stockItemGrpcServices.GetStock(item.ItemNo);
+                item.SetAvailableQuantity(stock.Quantity);
+
+            }
             var options = new DistributedCacheEntryOptions()
-                .SetAbsoluteExpiration(DateTime.UtcNow.AddHours(10))
-                .SetSlidingExpiration(TimeSpan.FromMinutes(10));
+                .SetAbsoluteExpiration(DateTime.UtcNow.AddHours(10));
+                //.SetSlidingExpiration(TimeSpan.FromMinutes(10));
 
             var result = await _repository.UpdateBasket(cart, options);
             return Ok(result);
         }
+
+
+
+
+
+
+
 
         [HttpDelete("{username}", Name = "DeleteBasket")]
         [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]

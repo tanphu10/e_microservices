@@ -5,12 +5,10 @@ using Microsoft.EntityFrameworkCore;
 using Customer.API.Repositories.Interfaces;
 using Customer.API.Repositories;
 using Contracts.Common.Interfaces;
-using Infrastructure.Common;
 using Customer.API.Services.Interfaces;
 using Customer.API.Services;
-using Shared.Dtos.Customer;
-using AutoMapper;
 using Customer.API.Controllers;
+using Infrastructure.Common.Repositories;
 
 
 var builder = WebApplication.CreateBuilder(args);

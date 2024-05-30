@@ -1,14 +1,9 @@
 ﻿using Contracts.Common.Interfaces;
-using Infrastructure.Common;
+using Infrastructure.Common.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Ordering.Application.Common.Interfaces;
 using Ordering.Domain.Entities;
 using Ordering.Infrastructure.Persistence;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ordering.Infrastructure.Repositories
 {
