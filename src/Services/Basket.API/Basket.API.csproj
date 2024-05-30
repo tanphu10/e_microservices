@@ -28,14 +28,17 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Protobuf Include="..\Inventory\Inventory.Grpc\Protos\stock.proto">
+	    <Link>stock.proto</Link>
+		  <GrpcService>Client</GrpcService>
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Protobuf>
+	</ItemGroup>
+
+	<ItemGroup>
 	  <Compile Update="Program.cs">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </Compile>
-	</ItemGroup>
-	<ItemGroup>
-		<Protobuf Include="..\..\..\..\Inventory.Grpc\Protos\stock.proto" GrpcService="Client" Link="stock.proto">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</Protobuf>
 	</ItemGroup>
 
 </Project>
