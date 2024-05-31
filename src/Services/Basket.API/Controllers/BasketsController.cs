@@ -60,11 +60,6 @@ namespace Basket.API.Controllers
 
 
 
-
-
-
-
-
         [HttpDelete("{username}", Name = "DeleteBasket")]
         [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<bool>> DeleteBasket([Required] string username)

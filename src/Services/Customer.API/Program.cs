@@ -24,8 +24,6 @@ try
     var connectionString = builder.Configuration.GetConnectionString("DefaultConnectionString");
     builder.Services.AddDbContext<CustomerContext>(
         options => options.UseNpgsql(connectionString));
-    //builder.Services.AddScoped<ICustomerRepository, CustomerRepository>().AddScoped(typeof(IRepositoryBaseAsync<,,>), typeof(RepositoryBase<,,>)).AddScoped<ICustomerService, CustomerService>();
-
     builder.Services.AddScoped<ICustomerRepository, CustomerRepository>().AddScoped(typeof(IRepositoryQueryBase<,,>), typeof(RepositoryQueryBase<,,>)).AddScoped<ICustomerService, CustomerService>();
 
     var app = builder.Build();
@@ -35,11 +33,8 @@ try
     if (app.Environment.IsDevelopment())
     {
         app.UseSwagger();
-        app.UseSwaggerUI(c =>
-        {
-            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json",
-                $"swagger API v1"));
-        });
+        app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", $"{builder.Environment.ApplicationName} v1"));
+
     }
     // app.UseHttpsRedirection(); //production only
 

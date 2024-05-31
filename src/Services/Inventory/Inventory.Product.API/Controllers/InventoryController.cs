@@ -48,8 +48,6 @@ namespace Inventory.Product.API.Controllers
             return Ok(result);
         }
 
-
-
         [Route("purchase/{itemNo}", Name = "PurchaseOrder")]
         [ProducesResponseType(typeof(IEnumerable<InventoryEntryDto>), (int)HttpStatusCode.OK)]
         [HttpPost]
