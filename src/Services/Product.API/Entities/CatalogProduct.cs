@@ -6,7 +6,6 @@ namespace Product.API.Entities
 {
     public class CatalogProduct : EntityAuditBase<long>
     {
-        public long Id { get; set; }
         [Required]
         [Column(TypeName = "varchar(150)")]
         public string No { get; set; }

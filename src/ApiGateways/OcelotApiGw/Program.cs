@@ -34,13 +34,20 @@ try
     app.UseCors("CorsPolicy");
 
     app.UseMiddleware<ErrorWrappingMiddleware>();
-
+    app.UseAuthentication();
     //app.UseHttpsRedirection();
 
-    //app.UseRouting();
+    app.UseRouting();
 
     app.UseAuthorization();
 
+    app.UseEndpoints(endpoints =>
+    {
+        endpoints.MapGet("/", async context =>
+        {
+            await context.Response.WriteAsync($"Hello TP");
+        });
+    });
     app.MapControllers();
 
     await app.UseOcelot();

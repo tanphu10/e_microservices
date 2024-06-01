@@ -14,7 +14,9 @@ try
     // Add services to the container.
 
     builder.Host.AddAppConfigurations();
+    builder.Services.AddConfigurationSettings(builder.Configuration);
     builder.Services.AddInfrastructure(builder.Configuration);
+
     var app = builder.Build();
     app.UseInfrastructure();
     app.MigrateDatabase<ProductContext>((context, _) =>

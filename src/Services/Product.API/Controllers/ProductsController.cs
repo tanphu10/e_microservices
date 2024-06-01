@@ -10,7 +10,6 @@ namespace Product.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [AllowAnonymous]
 
     public class ProductsController : ControllerBase
     {
@@ -40,6 +39,7 @@ namespace Product.API.Controllers
             return Ok(result);
         }
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> CreateProduct([FromBody] CreateProductDto productDto)
         {
             var product = _mapper.Map<CatalogProduct>(productDto);
@@ -50,6 +50,8 @@ namespace Product.API.Controllers
         }
 
         [HttpPut("{id:long}")]
+        [Authorize]
+
         //[ClaimRequirement(FunctionCode.PRODUCT, CommandCode.UPDATE)]
         public async Task<IActionResult> UpdateProduct([Required] long id, [FromBody] UpdateProductDto productDto)
         {
@@ -62,6 +64,8 @@ namespace Product.API.Controllers
             return Ok(result);
         }
         [HttpDelete("{id:long}")]
+        [Authorize]
+
         public async Task<IActionResult> DeleteProduct([Required] long id)
         {
             var product = await _repository.GetProductAsync(id);
