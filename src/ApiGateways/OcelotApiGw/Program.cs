@@ -6,7 +6,6 @@ using Serilog;
 
 Log.Logger = new LoggerConfiguration().WriteTo.Console().CreateBootstrapLogger();
 var builder = WebApplication.CreateBuilder(args);
-builder.Host.UseSerilog(Serilogger.Configure);
 
 Log.Information("Starting Ocelot API up");
 
@@ -22,13 +21,13 @@ try
     builder.Services.AddSwaggerGen();
     builder.Services.ConfigureOcelot(builder.Configuration);
     builder.Services.ConfigureCors(builder.Configuration);
-        var app = builder.Build();
+    var app = builder.Build();
 
     // Configure the HTTP request pipeline.
     if (app.Environment.IsDevelopment())
     {
-        app.UseSwagger();
-        app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", $"{builder.Environment.ApplicationName} v1"));
+        //app.UseSwagger();
+        //app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", $"{builder.Environment.ApplicationName} v1"));
     }
 
     app.UseCors("CorsPolicy");
@@ -43,12 +42,17 @@ try
 
     app.UseEndpoints(endpoints =>
     {
-        endpoints.MapGet("/", async context =>
+        endpoints.MapGet("/",context =>
         {
-            await context.Response.WriteAsync($"Hello TP");
+            //await context.Response.WriteAsync($"Hello TanPhu");
+            context.Response.Redirect("swagger/index.html");
+            return Task.CompletedTask;
         });
     });
-    app.MapControllers();
+
+
+    app.UseSwaggerForOcelotUI(
+        opt => { opt.PathToSwaggerGenerator = "/swagger/docs"; });
 
     await app.UseOcelot();
 

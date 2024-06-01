@@ -3,7 +3,10 @@ using Infrastructure.Extensions;
 using Infrastructure.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Ocelot.Cache;
+using Ocelot.Cache.CacheManager;
 using Ocelot.DependencyInjection;
+using Ocelot.Provider.Polly;
 using Shared.Configurations;
 using System.Text;
 
@@ -19,10 +22,14 @@ namespace OcelotApiGw.Extensions
         }
         public static void ConfigureOcelot(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddOcelot(configuration);
+            services.AddOcelot(configuration).AddPolly().AddCacheManager(x => x.WithDictionaryHandle());
+            //services.AddSingleton<IOcelotCache<CachedResponse>, TeduCache>();
             services.AddTransient<ITokenService, TokenService>();
             services.AddJwtAuthentication();
-
+            services.AddSwaggerForOcelot(configuration, x =>
+            {
+                x.GenerateDocsForGatewayItSelf = false;
+            });
         }
         internal static IServiceCollection AddJwtAuthentication(this IServiceCollection services)
         {

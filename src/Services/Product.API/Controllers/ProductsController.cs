@@ -20,11 +20,17 @@ namespace Product.API.Controllers
             _repository = repository;
             _mapper = mapper;
         }
+        //private static int count = 0;
 
         #region CRUD
         [HttpGet]
         public async Task<IActionResult> GetProducts()
         {
+            //count++;
+            //if (count < 3)
+            //{
+            //    Thread.Sleep(5000);
+            //}
             var products = await _repository.GetProductsAsync();
             var result = _mapper.Map<IEnumerable<ProductDto>>(products);
             return Ok(result);
@@ -39,7 +45,7 @@ namespace Product.API.Controllers
             return Ok(result);
         }
         [HttpPost]
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> CreateProduct([FromBody] CreateProductDto productDto)
         {
             var product = _mapper.Map<CatalogProduct>(productDto);
@@ -51,8 +57,7 @@ namespace Product.API.Controllers
 
         [HttpPut("{id:long}")]
         [Authorize]
-
-        //[ClaimRequirement(FunctionCode.PRODUCT, CommandCode.UPDATE)]
+                //[ClaimRequirement(FunctionCode.PRODUCT, CommandCode.UPDATE)]
         public async Task<IActionResult> UpdateProduct([Required] long id, [FromBody] UpdateProductDto productDto)
         {
             var product = await _repository.GetProductAsync(id);

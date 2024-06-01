@@ -7,8 +7,22 @@
     {
       "UpstreamPathTemplate": "/products/{any}",
       "UpstreamHttpMethod": [
-        "GET",
-        "POST",
+        "GET"
+      ],
+      "DownstreamPathTemplate": "/api/products/{any}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ],
+      "SwaggerKey": "product-service"
+    },
+    {
+      "UpstreamPathTemplate": "/products/{any}",
+      "UpstreamHttpMethod": [
+        "PUT",
         "DELETE"
       ],
       "DownstreamPathTemplate": "/api/products/{any}",
@@ -18,7 +32,15 @@
           "Host": "localhost",
           "Port": 5002
         }
-      ]
+      ],
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "Bearer",
+      //  "AllowedScopes": []
+      //},
+      //"RouteClaimsRequirement": {
+      //  "Role": "Admin"
+      //},
+      "SwaggerKey": "product-service"
     },
     {
       "UpstreamPathTemplate": "/products/get-product-by-no/{any}",
@@ -32,12 +54,12 @@
           "Host": "localhost",
           "Port": 5002
         }
-      ]
+      ],
+      "SwaggerKey": "product-service"
     },
     {
       "UpstreamPathTemplate": "/products",
       "UpstreamHttpMethod": [
-        "GET",
         "POST"
       ],
       "DownstreamPathTemplate": "/api/products",
@@ -47,7 +69,52 @@
           "Host": "localhost",
           "Port": 5002
         }
-      ]
+      ],
+      //"RateLimitOptions": {
+      //  "ClientWhitelist": [], // client in this array will not be affected by the rate limit
+      //  "EnableRateLimiting": true,
+      //  "Period": "2s", //1s,5m,1h,1d
+      //  "PeriodTimespan": 1, //retry after a certain number of seconds
+      //  "Limit": 1 // the maximum number of request that a client can make in a defind period
+      //},
+      //"QoSOptions": {
+      //  "ExceptionsAllowedBeforeBreaking": 2, // if the service does not response for 2 seconds, it will throw a timeout exception
+      //  "DurationOfBreak": 1000,
+      //  "TimeoutValue": 5000 //if the service throws a second exception, the service will not be accessible for five second
+      //},
+      "SwaggerKey": "product-service"
+    },
+
+    //configure get
+    {
+      "UpstreamPathTemplate": "/products",
+      "UpstreamHttpMethod": [
+        "GET"
+      ],
+      "DownstreamPathTemplate": "/api/products",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ],
+      //"RateLimitOptions": {
+      //  "ClientWhitelist": [], // client in this array will not be affected by the rate limit
+      //  "EnableRateLimiting": true,
+      //  "Period": "10s", //1s,5m,1h,1d
+      //  "PeriodTimespan": 1, //retry after a certain number of seconds
+      //  "Limit": 5 // the maximum number of request that a client can make in a defind period
+      //},
+      //"QoSOptions": {
+      //  "ExceptionsAllowedBeforeBreaking": 2, // if the service does not response for 2 seconds, it will throw a timeout exception
+      //  "DurationOfBreak": 1000,
+      //  "TimeoutValue": 5000 //if the service throws a second exception, the service will not be accessible for five second
+      //},
+      //"FileCacheOptions": {
+      //  "TtlSeconds": 15 /// cached seconds install library cached manager
+      //},
+      "SwaggerKey": "product-service"
     },
     //Customer api: http://localhost:5003/api/customers
     {
@@ -62,7 +129,8 @@
           "Host": "localhost",
           "Port": 5003
         }
-      ]
+      ],
+      "SwaggerKey": "customer-service"
     },
     //Basket api : http://localhost:5004/api/baskets
     {
@@ -78,7 +146,8 @@
           "Host": "localhost",
           "Port": 5004
         }
-      ]
+      ],
+      "SwaggerKey": "basket-service"
     },
     {
       "UpstreamPathTemplate": "/baskets",
@@ -106,7 +175,8 @@
           "Host": "localhost",
           "Port": 5004
         }
-      ]
+      ],
+      "SwaggerKey": "basket-service"
     },
     //Order api : http://localhost:5005/api/{version}/orders
     {
@@ -123,7 +193,8 @@
           "Host": "localhost",
           "Port": 5005
         }
-      ]
+      ],
+      "SwaggerKey": "order-service"
     },
 
     {
@@ -138,7 +209,8 @@
           "Host": "localhost",
           "Port": 5005
         }
-      ]
+      ],
+      "SwaggerKey": "order-service"
     },
     //inventory api : http://localhost:5006/api/inventory
     {
@@ -153,7 +225,8 @@
           "Host": "localhost",
           "Port": 5006
         }
-      ]
+      ],
+      "SwaggerKey": "inventory-service"
     },
     {
       "UpstreamPathTemplate": "/inventory/items/{any}/paging",
@@ -182,7 +255,8 @@
           "Host": "localhost",
           "Port": 5006
         }
-      ]
+      ],
+      "SwaggerKey": "inventory-service"
     },
     {
       "UpstreamPathTemplate": "/inventory/purchase/{any}",
@@ -196,7 +270,61 @@
           "Host": "localhost",
           "Port": 5006
         }
+      ],
+      "SwaggerKey": "inventory-service"
+    }
+  ],
+  "SwaggerEndPoints": [
+    {
+      "Key": "product-service",
+      "Config": [
+        {
+          "Name": "Product API",
+          "Version": "v1",
+          "Url": "http://localhost:5002/swagger/v1/swagger.json"
+        }
       ]
     },
+    {
+      "Key": "customer-service",
+      "Config": [
+        {
+          "Name": "Customer API",
+          "Version": "v1",
+          "Url": "http://localhost:5003/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "basket-service",
+      "Config": [
+        {
+          "Name": "Basket API",
+          "Version": "v1",
+          "Url": "http://localhost:5004/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "order-service",
+      "Config": [
+        {
+          "Name": "Order API",
+          "Version": "v1",
+          "Url": "http://localhost:5005/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "inventory-service",
+      "Config": [
+        {
+          "Name": "Invetory API",
+          "Version": "v1",
+          "Url": "http://localhost:5006/swagger/v1/swagger.json"
+        }
+      ]
+    }
+
   ]
 }
