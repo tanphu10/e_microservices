@@ -56,7 +56,7 @@ namespace Product.API.Controllers
         }
 
         [HttpPut("{id:long}")]
-        [Authorize]
+        //[Authorize]
                 //[ClaimRequirement(FunctionCode.PRODUCT, CommandCode.UPDATE)]
         public async Task<IActionResult> UpdateProduct([Required] long id, [FromBody] UpdateProductDto productDto)
         {
@@ -69,7 +69,7 @@ namespace Product.API.Controllers
             return Ok(result);
         }
         [HttpDelete("{id:long}")]
-        [Authorize]
+        //[Authorize]
 
         public async Task<IActionResult> DeleteProduct([Required] long id)
         {

@@ -1,6 +1,6 @@
 {
   "GlobalConfiguration": {
-    "BaseUrl": "http://localhost:5000"
+    "BaseUrl": "http://apigw.ocelot"
   },
   "Routes": [
     // Product api: http://localhost:5002/api/products
@@ -13,8 +13,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5002
+          "Host": "host.docker.internal",
+          "Port": 6002
         }
       ],
       "SwaggerKey": "product-service"
@@ -29,8 +29,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5002
+          "Host": "host.docker.internal",
+          "Port": 6002
         }
       ],
       //      "AuthenticationOptions": {
@@ -51,8 +51,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5002
+          "Host": "host.docker.internal",
+          "Port": 6002
         }
       ],
       "RateLimitOptions": {
@@ -81,8 +81,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5002
+          "Host": "host.docker.internal",
+          "Port": 6002
         }
       ],
       "SwaggerKey": "product-service"
@@ -97,8 +97,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5002
+          "Host": "host.docker.internal",
+          "Port": 6002
         }
       ],
       "RateLimitOptions": {
@@ -128,8 +128,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5003
+          "Host": "host.docker.internal",
+          "Port": 6003
         }
       ],
       "SwaggerKey": "customer-service"
@@ -145,8 +145,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5004
+          "Host": "host.docker.internal",
+          "Port": 6004
         }
       ],
       "SwaggerKey": "basket-service"
@@ -160,8 +160,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5004
+          "Host": "host.docker.internal",
+          "Port": 6004
         }
       ],
       "SwaggerKey": "basket-service"
@@ -175,8 +175,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5004
+          "Host": "host.docker.internal",
+          "Port": 6004
         }
       ],
       "SwaggerKey": "basket-service"
@@ -191,8 +191,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5005
+          "Host": "host.docker.internal",
+          "Port": 6005
         }
       ],
       "SwaggerKey": "order-service"
@@ -207,8 +207,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5005
+          "Host": "host.docker.internal",
+          "Port": 6005
         }
       ],
       "SwaggerKey": "order-service"
@@ -222,8 +222,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5005
+          "Host": "host.docker.internal",
+          "Port": 6005
         }
       ],
       "SwaggerKey": "order-service"
@@ -238,8 +238,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5006
+          "Host": "host.docker.internal",
+          "Port": 6006
         }
       ],
       "SwaggerKey": "inventory-service"
@@ -253,8 +253,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5006
+          "Host": "host.docker.internal",
+          "Port": 6006
         }
       ],
       "SwaggerKey": "inventory-service"
@@ -269,8 +269,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5006
+          "Host": "host.docker.internal",
+          "Port": 6006
         }
       ],
       "SwaggerKey": "inventory-service"
@@ -284,8 +284,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5006
+          "Host": "host.docker.internal",
+          "Port": 6006
         }
       ],
       "SwaggerKey": "inventory-service"
@@ -298,7 +298,7 @@
         {
           "Name": "Product API",
           "Version": "v1",
-          "Url": "http://localhost:5002/swagger/v1/swagger.json"
+          "Url": "http://product.api/swagger/v1/swagger.json"
         }
       ]
     },
@@ -308,7 +308,7 @@
         {
           "Name": "Customer API",
           "Version": "v1",
-          "Url": "http://localhost:5003/swagger/v1/swagger.json"
+          "Url": "http://customer.api/swagger/v1/swagger.json"
         }
       ]
     },
@@ -318,7 +318,7 @@
         {
           "Name": "Basket API",
           "Version": "v1",
-          "Url": "http://localhost:5004/swagger/v1/swagger.json"
+          "Url": "http://basket.api/swagger/v1/swagger.json"
         }
       ]
     },
@@ -328,7 +328,7 @@
         {
           "Name": "Order API",
           "Version": "v1",
-          "Url": "http://localhost:5005/swagger/v1/swagger.json"
+          "Url": "http://ordering.api/swagger/v1/swagger.json"
         }
       ]
     },
@@ -338,7 +338,7 @@
         {
           "Name": "Invetory API",
           "Version": "v1",
-          "Url": "http://localhost:5006/swagger/v1/swagger.json"
+          "Url": "http://inventory.product.api/swagger/v1/swagger.json"
         }
       ]
     }
