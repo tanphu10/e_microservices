@@ -1,6 +1,8 @@
 ﻿using Basket.API.GrpcServices;
 using Basket.API.Repositories;
 using Basket.API.Repositories.Interfaces;
+using Basket.API.Services;
+using Basket.API.Services.Interfaces;
 using Contracts.Common.Interfaces;
 using EventBus.Messages.IntegrationEvents.Interfaces;
 using Infrastructure.Common;
@@ -34,7 +36,8 @@ namespace Basket.API.Extensitons
             return services;
         }
         public static IServiceCollection ConfigureServices(this IServiceCollection services) => services.AddScoped<IBasketRepository, BasketRepository>()
-            .AddTransient<ISerializeService, SerializeService>();
+            .AddTransient<ISerializeService, SerializeService>()
+            .AddTransient<IEmailTemplateService,BasketEmailTemplateService>();
         public static void ConfigureRedis(this IServiceCollection services, IConfiguration configuration)
         {
             //var redisConnectionString = configuration.GetSection("CacheSettings:ConnectionString").Value;

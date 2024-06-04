@@ -9,6 +9,7 @@ using Customer.API.Services.Interfaces;
 using Customer.API.Services;
 using Customer.API.Controllers;
 using Infrastructure.Common.Repositories;
+using Infrastructure.ScheduledJobs;
 
 
 var builder = WebApplication.CreateBuilder(args);

@@ -13,5 +13,6 @@
             UserName = username;
         }
         public decimal TotalPrice => Items.Sum(item => item.ItemPrice * item.Quantity);
+        public DateTimeOffset LastModifiedDate { get; set; } = DateTimeOffset.UtcNow;
     }
 }

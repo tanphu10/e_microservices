@@ -2,6 +2,7 @@
 using Basket.API.Entities;
 using Basket.API.GrpcServices;
 using Basket.API.Repositories.Interfaces;
+using Basket.API.Services.Interfaces;
 using EventBus.Messages.IntegrationEvents.Events;
 using MassTransit;
 using Microsoft.AspNetCore.Mvc;
@@ -19,12 +20,14 @@ namespace Basket.API.Controllers
         private readonly IPublishEndpoint _publishEndpoint;
         private readonly IMapper _mapper;
         private readonly StockItemGrpcService _stockItemGrpcServices;
-        public BasketsController(IBasketRepository repository,IMapper mapper,IPublishEndpoint publishEndpoint, StockItemGrpcService stockItemGrpcServices)
+        private readonly IEmailTemplateService _emailTemlateService;
+        public BasketsController(IBasketRepository repository, IMapper mapper, IPublishEndpoint publishEndpoint, StockItemGrpcService stockItemGrpcServices,IEmailTemplateService emailTemplateService)
         {
             _repository = repository;
             _mapper = mapper;
             _publishEndpoint = publishEndpoint;
             _stockItemGrpcServices = stockItemGrpcServices;
+            _emailTemlateService = emailTemplateService;
         }
 
 
@@ -52,7 +55,7 @@ namespace Basket.API.Controllers
             }
             var options = new DistributedCacheEntryOptions()
                 .SetAbsoluteExpiration(DateTime.UtcNow.AddHours(10));
-                //.SetSlidingExpiration(TimeSpan.FromMinutes(10));
+            //.SetSlidingExpiration(TimeSpan.FromMinutes(10));
 
             var result = await _repository.UpdateBasket(cart, options);
             return Ok(result);
@@ -67,9 +70,9 @@ namespace Basket.API.Controllers
             var result = await _repository.DeleteBasketFromUserName(username);
             return Ok(result);
         }
-        [Route ("[action]")]
+        [Route("[action]")]
         [HttpPost]
-        [ProducesResponseType( (int)HttpStatusCode.Accepted)]
+        [ProducesResponseType((int)HttpStatusCode.Accepted)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> Checkout([FromBody] BasketCheckout basketCheckout)
         {
@@ -85,7 +88,18 @@ namespace Basket.API.Controllers
             await _repository.DeleteBasketFromUserName(basketCheckout.UserName);
             return Accepted();
         }
+        [HttpPost("[action]", Name = "SendEmailReminder")]
+        public ContentResult SendEmailReminder()
+        {
+            var emailTemplate = _emailTemlateService.GenerateReminderCheckoutOrderEmail("phantanphu10@gmail.com", username: "test");
+            var result = new ContentResult
+            {
+                Content = emailTemplate,
+                ContentType = "text/html"
+            };
+            return result;
 
+        }
 
 
     }
