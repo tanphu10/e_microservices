@@ -30,9 +30,16 @@ namespace Basket.API.Extensitons
             var cacheSettings = configuration.GetSection(nameof(CacheSettings))
               .Get<CacheSettings>();
             services.AddSingleton(cacheSettings);
+
             var grpcSettings = configuration.GetSection(nameof(GrpcSettings))
              .Get<GrpcSettings>();
             services.AddSingleton(grpcSettings);
+
+            var backgroundJobSettings = configuration.GetSection(nameof(BackgroundJobSettings))
+          .Get<BackgroundJobSettings>();
+            services.AddSingleton(backgroundJobSettings);
+
+
             return services;
         }
         public static IServiceCollection ConfigureServices(this IServiceCollection services) => services.AddScoped<IBasketRepository, BasketRepository>()
