@@ -3,5 +3,6 @@
     public interface IEmailService<T> where T: class
     {
         Task SendEmailAsync(T request, CancellationToken cancellationToken = new CancellationToken());
+        void SendEmail(T request);
     }
 }

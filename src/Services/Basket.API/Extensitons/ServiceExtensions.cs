@@ -45,6 +45,11 @@ namespace Basket.API.Extensitons
         public static IServiceCollection ConfigureServices(this IServiceCollection services) => services.AddScoped<IBasketRepository, BasketRepository>()
             .AddTransient<ISerializeService, SerializeService>()
             .AddTransient<IEmailTemplateService,BasketEmailTemplateService>();
+        public static void ConfigureHttpClientService(this IServiceCollection services)
+        {
+            services.AddHttpClient<BackgroundJobHttpService>();
+
+        }
         public static void ConfigureRedis(this IServiceCollection services, IConfiguration configuration)
         {
             //var redisConnectionString = configuration.GetSection("CacheSettings:ConnectionString").Value;

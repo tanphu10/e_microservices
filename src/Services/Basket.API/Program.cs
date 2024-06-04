@@ -15,14 +15,14 @@ try
 {
     builder.Host.UseSerilog(Serilogger.Configure);
     builder.Host.AddAppConfigurations();
-    //builder.Services.AddConfigurationSettings(builder.Configuration);
+    builder.Services.AddConfigurationSettings(builder.Configuration);
     builder.Services.AddAutoMapper(cfg => cfg.AddProfile(new MappingProfile()));
     // Add services to the container.
     builder.Services.ConfigureServices();
+    builder.Services.ConfigureHttpClientService();
     builder.Services.ConfigureRedis(builder.Configuration);
     builder.Services.ConfigureGrpcServices();
     builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
-
 
 
     // configure MassTransit
