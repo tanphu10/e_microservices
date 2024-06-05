@@ -19,6 +19,9 @@ namespace Hangefire.API.Services
             _emailService = emailService;
             _logger = logger;
         }
+
+        public IScheduledJobService scheduledJobService => _jobService;
+
         public string? SendEmailContent(string email, string subject, string emailContent, DateTimeOffset enqueueAt)
         {
             var emailRequest = new MailRequest

@@ -8,6 +8,7 @@ using EventBus.Messages.IntegrationEvents.Events;
 using MassTransit;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
+using Shared.Dtos.Basket;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
 
@@ -46,10 +47,10 @@ namespace Basket.API.Controllers
 
         [HttpPost(Name = "UpdateBasket")]
         [ProducesResponseType(typeof(Cart), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<Cart>> UpdateBasket([FromBody] Cart cart)
+        public async Task<ActionResult<CartDto>> UpdateBasket([FromBody] CartDto model)
         {
             //Communicate with inventory.Grpc  and check quantity available of products
-            foreach (var item in cart.Items)
+            foreach (var item in model.Items)
             {
                 var stock = await _stockItemGrpcServices.GetStock(item.ItemNo);
                 item.SetAvailableQuantity(stock.Quantity);
@@ -58,8 +59,10 @@ namespace Basket.API.Controllers
             var options = new DistributedCacheEntryOptions()
                 .SetAbsoluteExpiration(DateTime.UtcNow.AddHours(10));
             //.SetSlidingExpiration(TimeSpan.FromMinutes(10));
+            var updateCart = _mapper.Map<Cart>(model);
 
-            var result = await _repository.UpdateBasket(cart, options);
+            var cart = await _repository.UpdateBasket(updateCart, options);
+            var result = _mapper.Map<CartDto>(cart);
             return Ok(result);
         }
 

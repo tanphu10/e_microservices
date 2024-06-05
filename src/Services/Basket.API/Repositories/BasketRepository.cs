@@ -33,11 +33,10 @@ namespace Basket.API.Repositories
             return string.IsNullOrEmpty(basket) ? null :
                 _serializeService.Deserialize<Cart>(basket);
         }
-
-
-
         public async Task<Cart> UpdateBasket(Cart cart, DistributedCacheEntryOptions options)
         {
+            DeleteReminderCheckoutOrder(cart.UserName);
+
             _logger.Information($"BEGIN: UpdateBasket {cart.UserName}");
 
             if (options != null)
@@ -66,8 +65,8 @@ namespace Basket.API.Repositories
         private async Task TriggerSendEmailReminderCheckout(Cart cart)
         {
             var emailTemplate = _emailTemplateService.GenerateReminderCheckoutOrderEmail(cart.UserName);
-            var model = new ReminderCheckoutOrderDto(cart.EmailAddress, "reminder checkout", emailTemplate, DateTimeOffset.UtcNow.AddMinutes(3));
-            const string uri = "/api/scheduled-jobs/send-email-reminder-checkout-order";
+            var model = new ReminderCheckoutOrderDto(cart.EmailAddress, "reminder checkout", emailTemplate, DateTimeOffset.UtcNow.AddMinutes(2));
+            var uri = $"{_backgroundJobHttp.ScheduledJobUrl}/send-email-reminder-checkout-order";
             var response = await _backgroundJobHttp.Client.PostAsJson(uri, model);
             if (response.EnsureSuccessStatusCode().IsSuccessStatusCode)
             {
@@ -80,13 +79,18 @@ namespace Basket.API.Repositories
                 }
             }
         }
-
-
-
-
-
+        private async Task DeleteReminderCheckoutOrder(string username)
+        {
+            var cart = await GetBasketByUserName(username);
+            if (cart == null || string.IsNullOrEmpty(cart.JobId)) return;
+            var jobId = cart.JobId;
+            var uri = $"{_backgroundJobHttp.ScheduledJobUrl}/delete/jobId/{jobId}";
+            _backgroundJobHttp.Client.DeleteAsync(uri);
+            _logger.Information($"DeleteReminderCheckoutOrder:Deleted JobId :{jobId}");
+        }
         public async Task<bool> DeleteBasketFromUserName(string username)
         {
+            DeleteReminderCheckoutOrder(username);
             try
             {
                 _logger.Information($"BEGIN: DeleteBasketFromUserName {username}");
