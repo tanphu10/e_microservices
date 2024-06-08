@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Shared.Dtos.Inventory
 {
-    public record SalesProductDto(string ExternalDocumentNo, int Quanity)
+    public record SalesProductDto(string ExternalDocumentNo, int Quantity)
     {
         public EDocumentType DocumentType = EDocumentType.Sale;
         public string ItemNo { get; set; }

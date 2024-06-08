@@ -56,18 +56,29 @@ namespace Inventory.Product.API.Controllers
             var result = await _inventoryService.PurchaseItemAsync(itemNo, model);
             return Ok(result);
         }
-        [Route("sales/{itemNo}", Name = "SaleOrder")]
-        [ProducesResponseType(typeof(IEnumerable<InventoryEntryDto>), (int)HttpStatusCode.OK)]
+        [Route("sales/{itemNo}", Name = "SaleItem")]
+        [ProducesResponseType(typeof(InventoryEntryDto), (int)HttpStatusCode.OK)]
         [HttpPost]
-        public async Task<ActionResult<InventoryEntryDto>> SaleOrder([Required] string itemNo, [FromBody] SalesProductDto model)
+        public async Task<ActionResult<InventoryEntryDto>> SaleItem([Required] string itemNo, [FromBody] SalesProductDto model)
         {
             var result = await _inventoryService.SalesItemAsync(itemNo, model);
             return Ok(result);
         }
+
+        [Route("sales/order-no/{orderNo}", Name = "SaleOrder")]
+        [ProducesResponseType(typeof(CreatedSalesOrderSuccessDto), (int)HttpStatusCode.OK)]
+        [HttpPost]
+        public async Task<ActionResult<InventoryEntryDto>> SaleOrder([Required] string orderNo, [FromBody] SalesOrderDto model)
+        {
+            model.OrderNo = orderNo;
+            var documentNo = await _inventoryService.SalesOrderAsync(model);
+            var result = new CreatedSalesOrderSuccessDto(documentNo);
+            return Ok(result);
+        }
         //[Route("{id}", Name = "DeleteById")]
-        [HttpDelete("{id}",Name ="DeleteById")]
+        [HttpDelete("{id}", Name = "DeleteById")]
         [ProducesResponseType(typeof(InventoryEntryDto), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<InventoryEntryDto>> DeleteById ([Required] string id)
+        public async Task<ActionResult<InventoryEntryDto>> DeleteById([Required] string id)
         {
             var entity = await _inventoryService.GetByIdAsync(id);
             if (entity == null) return NotFound();
@@ -75,5 +86,18 @@ namespace Inventory.Product.API.Controllers
             return NoContent();
         }
 
+        [Route("document-no/{documentNo}", Name = "DeleteByDocumentNo")]
+        [HttpDelete]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType((int)HttpStatusCode.NoContent)]
+        public async Task<IActionResult> DeleteByDocumentNo([Required] string documentNo)
+        {
+            await _inventoryService.DeleteByDocumentNoAsync(documentNo);
+            return NoContent();
+        }
+
+
     }
+
 }
+

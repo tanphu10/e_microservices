@@ -87,9 +87,15 @@ namespace Saga.Orchestrator.Services
         private async Task RollbackCheckoutOrder(string username, long orderId, List<string> inventoryDocumentNos)
         {
             _logger.Information($"Start RollbackCheckoutOrder for username :{username}," + $"Order id:{orderId}" + $"inventory document no: {string.Join(",", inventoryDocumentNos)}");
+            _logger.Information($"Start: Delete Order Id");
+            await _orderHttpRepository.DeleteOrder(orderId);
+
+
+            _logger.Information($"End: Deleted Order Id{orderId}");
 
             var deletedDocumentNos = new List<string>();
             // delete order by ỏrder's id , order's document no
+            _logger.Information($"Start: Delete Inventory Document No");
             foreach (var documentNo in inventoryDocumentNos)
             {
                 await _inventoryHttpRepository.DeleteOrderByDocumentNo(documentNo);

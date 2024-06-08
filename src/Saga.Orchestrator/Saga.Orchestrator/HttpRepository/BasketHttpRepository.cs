@@ -12,8 +12,12 @@ namespace Saga.Orchestrator.HttpRepository
         }
         public async Task<bool> DeleteBasket(string username)
         {
+            var response = await _client.DeleteAsync($"baskets/{username}");
+            if (!response.EnsureSuccessStatusCode().IsSuccessStatusCode)
+                throw new Exception($"Delete basket for username :{username} not success");
+            var result = response.IsSuccessStatusCode;
 
-            throw new NotImplementedException();
+            return result;
 
         }
         public async Task<CartDto> GetBasket(string username)

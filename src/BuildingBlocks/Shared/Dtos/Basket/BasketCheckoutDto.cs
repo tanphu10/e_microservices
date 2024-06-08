@@ -20,6 +20,7 @@ namespace Shared.Dtos.Basket
         public string EmailAddress { get; set; }
         [Required]
         public string ShippingAddress { get; set; }
+
         private string _invoiceAddress;
 
         public string? InvoiceAddress { get=>_invoiceAddress; set =>_invoiceAddress=value ?? ShippingAddress; }

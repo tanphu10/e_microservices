@@ -20,7 +20,7 @@ namespace Inventory.Product.API.Services
             _mapper = mapper;
         }
 
-      
+
         public async Task<IEnumerable<InventoryEntryDto>> GetAllByItemNoAsync(string itemNo)
         {
             var entities = await FindAll().Find(x => x.ItemNo.Equals(itemNo)).ToListAsync();
@@ -37,7 +37,7 @@ namespace Inventory.Product.API.Services
             if (!string.IsNullOrEmpty(query.SearchTerm))
                 filterSearchTerm = Builders<InventoryEntry>.Filter.Eq(x => x.DocumentNo, query.SearchTerm);
             var andFilter = filterItemNo & filterSearchTerm;
-            var pagedList = await Collection.PaginatedListAsync(andFilter,pageIndex: query.PageIndex,pageSize: query.PageSize);
+            var pagedList = await Collection.PaginatedListAsync(andFilter, pageIndex: query.PageIndex, pageSize: query.PageSize);
 
             var items = _mapper.Map<IEnumerable<InventoryEntryDto>>(pagedList);
             var result = new PagedList<InventoryEntryDto>(items, pagedList.GetMetaData().TotalItems, pageIndex: query.PageIndex, pageSize: query.PageSize);
@@ -72,23 +72,40 @@ namespace Inventory.Product.API.Services
             var itemToAdd = new InventoryEntry(ObjectId.GenerateNewId().ToString())
             {
                 ItemNo = itemNo,
-                ExternalDocumentNo=model.ExternalDocumentNo,
-                Quantity = model.Quanity,
+                ExternalDocumentNo = model.ExternalDocumentNo,
+                Quantity = model.Quantity,
                 DocumentType = model.DocumentType,
             };
-           
+
             await CreateAsync(itemToAdd);
             var result = _mapper.Map<InventoryEntryDto>(itemToAdd);
             return result;
 
-            
+
         }
         public async Task DeleteByDocumentNoAsync(string documentNo)
         {
-            FilterDefinition<InventoryEntry> filter = Builders<InventoryEntry>.Filter.Eq(x => x.DocumentNo, documentNo);
-            await Collection.DeleteOneAsync(filter);
-
+            FilterDefinition<InventoryEntry> filter = Builders<InventoryEntry>.Filter.Eq(s => s.DocumentNo, documentNo);
+            await Collection.DeleteManyAsync(filter);
         }
 
+        public async Task<string> SalesOrderAsync(SalesOrderDto model)
+        {
+            var documentNo = Guid.NewGuid().ToString();
+            foreach (var saleItem in model.SaleItems)
+            {
+                var itemToAdd = new InventoryEntry(ObjectId.GenerateNewId().ToString())
+                {
+                    DocumentNo = documentNo,
+                    ItemNo = saleItem.ItemNo,
+                    ExternalDocumentNo = model.OrderNo,
+                    Quantity = saleItem.Quantity * -1,
+                    DocumentType = saleItem.DocumentType,
+                };
+
+                await CreateAsync(itemToAdd);
+            }
+            return documentNo;
+        }
     }
 }
