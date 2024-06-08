@@ -20,7 +20,8 @@ namespace Hangefire.API.Extensions
             return services;
         }
         public static IServiceCollection ConfigureServices(this IServiceCollection services)
-            => services.AddTransient<IScheduledJobService, HangfireService>().AddTransient<ISmtpEmailService,SmtpEmailService>().AddTransient<IBackgroundJobService,BackgroundJobService>();
+            => services.AddTransient<IScheduledJobService, HangfireService>().AddTransient<ISmtpEmailService,SmtpEmailService>()
+            .AddTransient<IBackgroundJobService,BackgroundJobService>();
 
     }
 }

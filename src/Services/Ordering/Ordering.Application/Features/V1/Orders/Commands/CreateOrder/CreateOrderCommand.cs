@@ -2,21 +2,15 @@
 using EventBus.Messages.IntegrationEvents.Events;
 using MediatR;
 using Ordering.Application.Common.Mappings;
-using Ordering.Application.Common.Models;
 using Ordering.Application.Features.V1.Orders.Common;
 using Ordering.Domain.Entities;
 using Shared.Dtos.Orders;
 using Shared.SeedWork;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ordering.Application.Features.V1.Orders
 {
-    public class CreateOrderCommand :CreateOrUpdateCommand,IRequest<ApiResult<OrderDto>>,IMapFrom<Order>
-        //IMapFrom<BasketCheckoutEnven>
+    public class CreateOrderCommand : CreateOrUpdateCommand, IRequest<ApiResult<long>>, IMapFrom<Order>
+        //IMapFrom<BasketCheckoutEnvent>
     {
         public string UserName { get; set; }
 

@@ -13,6 +13,7 @@ namespace Ordering.Infrastructure.Repositories
         {
 
         }
+
         public async Task<IEnumerable<Order>> GetOrdersByUserName(string userName)
      => await FindByCondition(x => x.UserName.Equals(userName)).ToListAsync();
         public async Task<Order> CreateOrderAsync(Order order)
@@ -31,6 +32,12 @@ namespace Ordering.Infrastructure.Repositories
         {
             await DeleteAsync(order);
         }
+
+        public async Task<Order> GetOrderById(long id)
+        => await FindByCondition(x => x.Id.Equals(id)).FirstOrDefaultAsync();
+
+        public async Task<Order> GetOrderByDocumentNo(string documentNo)
+       => await FindByCondition(x => x.DocumentNo.ToString().Equals(documentNo)).FirstOrDefaultAsync();
     }
 
 }

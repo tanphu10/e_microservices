@@ -1,19 +1,30 @@
-﻿using Ordering.Application.Common.Mappings;
-using Ordering.Domain.Entities;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Shared.Enums.Order;
 
-namespace Ordering.Application.Common.Models
+namespace Shared.Dtos.Orders
 {
-    public class OrderDto : IMapFrom<Order>
+    public class OrderDto
     {
         public long Id { get; set; }
-        public Guid DocumentNo { get; set; }
         public string UserName { get; set; }
+
+        public Guid DocumentNo { get; set; } = Guid.NewGuid();
         public decimal TotalPrice { get; set; }
+       
         public string FirstName { get; set; }
+      
         public string LastName { get; set; }
+       
         public string EmailAddress { get; set; }
+ 
         public string ShippingAddress { get; set; }
+       
         public string InvoiceAddress { get; set; }
         public EOrderStatus Status { get; set; }
     }

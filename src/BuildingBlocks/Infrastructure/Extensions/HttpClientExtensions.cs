@@ -10,7 +10,8 @@ namespace Infrastructure.Extensions
         {
             if (!response.IsSuccessStatusCode) throw new ApplicationException($"somthing went wrong calling the api: {response.ReasonPhrase}");
             var dataAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            return JsonSerializer.Deserialize<T>(dataAsString, new JsonSerializerOptions
+            return JsonSerializer.Deserialize<T>(dataAsString, 
+               new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true,
                 ReferenceHandler = ReferenceHandler.Preserve

@@ -1,4 +1,7 @@
-﻿namespace Basket.API.Extensitons
+﻿using Common.Logging;
+using Serilog;
+
+namespace Saga.Orchestrator.Extensions
 {
     public static class HostExtension
     {
@@ -10,7 +13,7 @@
                 config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                     .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true)
                     .AddEnvironmentVariables();
-            });
+            }).UseSerilog(Serilogger.Configure);
 
         }
     }
